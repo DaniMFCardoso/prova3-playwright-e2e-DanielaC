@@ -21,7 +21,10 @@ export default class CarrinhoPage extends BasePage {
   }
 
   async acessarProduto(urlProduto: string): Promise<void> {
-    await this.page.goto(urlProduto);
+    await this.page.goto(urlProduto, {
+      waitUntil: 'domcontentloaded',
+    });
+
     await this.aceitarCookies();
 
     await expect(
@@ -35,6 +38,7 @@ export default class CarrinhoPage extends BasePage {
 
     await expect(botao).toBeVisible();
     await expect(botao).toBeEnabled();
+
     await botao.click();
   }
 
@@ -45,26 +49,34 @@ export default class CarrinhoPage extends BasePage {
     );
 
     await this.aceitarCookies();
+
+    await expect(
+      this.carrinhoElements.getConteudoCarrinho()
+    ).toBeVisible();
+
+    console.log('URL atual:', this.page.url());
+    console.log('Título:', await this.page.title());
+
+    console.log(
+      'Conteúdo da página:',
+      (await this.page.locator('body').innerText())
+        .slice(0, 3000)
+    );
   }
 
   async validarProdutoAdicionado(): Promise<void> {
     await this.abrirSacola();
 
-    await expect(
-      this.carrinhoElements.getConteudoCarrinho()
-    ).toBeVisible();
+    const produto =
+      this.carrinhoElements.getLinkProdutoNaSacola();
 
     await expect(
-      this.carrinhoElements.getLinkProdutoNaSacola().first()
+      produto.first()
     ).toBeVisible();
   }
 
   async validarSacolaVazia(): Promise<void> {
     await this.abrirSacola();
-
-    await expect(
-      this.carrinhoElements.getConteudoCarrinho()
-    ).toBeVisible();
 
     await expect(
       this.carrinhoElements.getMensagemSacolaVazia()

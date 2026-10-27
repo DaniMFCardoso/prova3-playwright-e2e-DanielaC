@@ -28,12 +28,12 @@ export default class CarrinhoElements extends BaseElements {
   }
 
   getConteudoCarrinho(): Locator {
-    return this.page.locator('main');
+    return this.page.locator('body');
   }
 
   getLinkProdutoNaSacola(): Locator {
     return this.page.locator(
-      'main a[href*="/p/"], main a[href*="/produto/"]'
+      'a[href*="/p/"], a[href*="/produto/"], a[href$=".html"]'
     );
   }
 

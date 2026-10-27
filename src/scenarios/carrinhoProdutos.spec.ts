@@ -1,5 +1,5 @@
 
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import CarrinhoPage from '../support/pages/CarrinhoPage';
 
 test.describe('Cadastro de produtos no carrinho - Sephora', () => {
@@ -13,7 +13,10 @@ test.describe('Cadastro de produtos no carrinho - Sephora', () => {
   test.beforeEach(async ({ page }) => {
     carrinhoPage = new CarrinhoPage(page);
 
-    await page.goto(BASE_URL);
+    await page.goto(BASE_URL, {
+      waitUntil: 'domcontentloaded',
+    });
+
     await carrinhoPage.aceitarCookies();
   });
 
@@ -23,7 +26,11 @@ test.describe('Cadastro de produtos no carrinho - Sephora', () => {
     await carrinhoPage.validarProdutoAdicionado();
   });
 
-  test('CT02 - Validar carrinho vazio', async () => {
+  test('CT02 - Validar carrinho vazio', async ({ page }) => {
+    // Limpa os cookies da sessão para tentar iniciar
+    // com uma sessão independente.
+    await page.context().clearCookies();
+
     await carrinhoPage.abrirSacola();
     await carrinhoPage.validarSacolaVazia();
   });
