@@ -16,10 +16,10 @@ export default class CarrinhoElements extends BaseElements {
   }
 
   getBotaoAdicionarSacola(): Locator {
-    return this.page.getByText('Adicionar à Sacola', {
-      exact: true,
-    }).first();
-  }
+  return this.page.getByText('Adicionar à Sacola', {
+    exact: true,
+  }).first();
+}
 
   getBotaoSacola(): Locator {
     return this.page.locator(

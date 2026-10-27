@@ -32,15 +32,34 @@ export default class CarrinhoPage extends BasePage {
     ).toBeVisible();
   }
 
-  async adicionarProdutoSacola(): Promise<void> {
-    const botao =
-      this.carrinhoElements.getBotaoAdicionarSacola();
+  
+async adicionarProdutoSacola(): Promise<void> {
+  const botao =
+    this.carrinhoElements.getBotaoAdicionarSacola();
 
-    await expect(botao).toBeVisible();
-    await expect(botao).toBeEnabled();
+  await expect(botao).toBeVisible();
+  await expect(botao).toBeEnabled();
 
-    await botao.click();
+  // Rola até o botão, posicionando-o no centro da tela.
+  await botao.scrollIntoViewIfNeeded();
+
+  try {
+    // Prioriza o clique normal, respeitando as verificações do Playwright.
+    await botao.click({ timeout: 5000 });
+  } catch {
+    // Se o cabeçalho interceptar o clique, tenta novamente
+    // após rolar o botão para o centro da página.
+    await this.page.evaluate(() => {
+      window.scrollBy(0, 250);
+    });
+
+    await botao.scrollIntoViewIfNeeded();
+
+    // O clique forçado é usado somente como alternativa.
+    await botao.click({ force: true });
   }
+}
+
 
   async abrirSacola(): Promise<void> {
     await this.page.goto(
