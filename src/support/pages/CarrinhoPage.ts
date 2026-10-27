@@ -50,28 +50,25 @@ export default class CarrinhoPage extends BasePage {
 
     await this.aceitarCookies();
 
-    await expect(
-      this.carrinhoElements.getConteudoCarrinho()
-    ).toBeVisible();
-
-    console.log('URL atual:', this.page.url());
+    console.log('URL após abrir sacola:', this.page.url());
     console.log('Título:', await this.page.title());
 
     console.log(
-      'Conteúdo da página:',
+      'Conteúdo:',
       (await this.page.locator('body').innerText())
         .slice(0, 3000)
     );
+
+    await expect(
+      this.carrinhoElements.getConteudoCarrinho()
+    ).toBeVisible();
   }
 
   async validarProdutoAdicionado(): Promise<void> {
     await this.abrirSacola();
 
-    const produto =
-      this.carrinhoElements.getLinkProdutoNaSacola();
-
     await expect(
-      produto.first()
+      this.carrinhoElements.getLinkProdutoNaSacola()
     ).toBeVisible();
   }
 

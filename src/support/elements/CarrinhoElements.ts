@@ -33,13 +33,13 @@ export default class CarrinhoElements extends BaseElements {
 
   getLinkProdutoNaSacola(): Locator {
     return this.page.locator(
-      'a[href*="/p/"], a[href*="/produto/"], a[href$=".html"]'
-    );
+      'a[href*="feito-strengthening-face-250g-512405"]'
+    ).filter({ visible: true });
   }
 
   getMensagemSacolaVazia(): Locator {
-    return this.page.locator(
-      '.cart-empty, .cart-empty__message'
+    return this.page.getByText(
+      /Ops, sua sacola está vazia/i
     );
   }
 }
