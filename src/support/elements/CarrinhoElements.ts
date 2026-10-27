@@ -16,10 +16,10 @@ export default class CarrinhoElements extends BaseElements {
   }
 
   getBotaoAdicionarSacola(): Locator {
-  return this.page.getByText('Adicionar à Sacola', {
-    exact: true,
-  }).first();
-}
+    return this.page.getByText('Adicionar à Sacola', {
+      exact: true,
+    }).first();
+  }
 
   getBotaoSacola(): Locator {
     return this.page.locator(
@@ -33,13 +33,15 @@ export default class CarrinhoElements extends BaseElements {
 
   getLinkProdutoNaSacola(): Locator {
     return this.page.locator(
-      'a[href*="feito-strengthening-face-250g-512405"]'
-    ).filter({ visible: true });
+      'a[href*="feito-strengthening-face-250g-512405"]:visible'
+    ).filter({
+      hasText: /Hidratante Fortalecedor Feito Brasil Cocais/i,
+    }).first();
   }
 
   getMensagemSacolaVazia(): Locator {
-    return this.page.getByText(
-      /Ops, sua sacola está vazia/i
+    return this.page.locator(
+      '.cart-empty:visible, .cart-empty__message:visible'
     );
   }
 }
