@@ -40,10 +40,8 @@ export default class CarrinhoElements extends BaseElements {
   }
 
   getMensagemSacolaVazia(): Locator {
-  return this.page.locator(
-    'p:visible'
-  ).filter({
-    hasText: /sacola está vazia/i,
-  });
-}
+    return this.page.getByText(
+      /sacola está vazia/i
+    ).first();
+  }
 }
