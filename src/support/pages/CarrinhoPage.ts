@@ -40,31 +40,34 @@ export default class CarrinhoPage extends BasePage {
 
   async abrirSacola(): Promise<void> {
     await this.page.goto(
-        'https://www.sephora.com.br/checkout/cart/',
-        { waitUntil: 'domcontentloaded' }
+      'https://www.sephora.com.br/checkout/cart/',
+      { waitUntil: 'domcontentloaded' }
     );
 
     await this.aceitarCookies();
+  }
 
-    await this.page.waitForTimeout(3000);
+  async validarProdutoAdicionado(): Promise<void> {
+    await this.abrirSacola();
 
-    console.log('URL atual:', this.page.url());
-    console.log('Título:', await this.page.title());
-    console.log(
-        'HTML da página:',
-        (await this.page.locator('body').innerText()).slice(0, 5000)
-    );
-    }
+    await expect(
+      this.carrinhoElements.getConteudoCarrinho()
+    ).toBeVisible();
 
-    async validarProdutoAdicionado(): Promise<void> {
-        await this.abrirSacola();
+    await expect(
+      this.carrinhoElements.getLinkProdutoNaSacola().first()
+    ).toBeVisible();
+  }
 
-        await expect(this.page.locator('body')).toBeVisible();
-    }
+  async validarSacolaVazia(): Promise<void> {
+    await this.abrirSacola();
 
-    async validarSacolaVazia(): Promise<void> {
-        await this.abrirSacola();
+    await expect(
+      this.carrinhoElements.getConteudoCarrinho()
+    ).toBeVisible();
 
-        await expect(this.page.locator('body')).toBeVisible();
-    }
+    await expect(
+      this.carrinhoElements.getMensagemSacolaVazia()
+    ).toBeVisible();
+  }
 }

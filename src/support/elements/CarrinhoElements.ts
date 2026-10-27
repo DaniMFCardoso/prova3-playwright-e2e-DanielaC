@@ -27,18 +27,19 @@ export default class CarrinhoElements extends BaseElements {
     );
   }
 
-  
-    getConteudoCarrinho(): Locator {
+  getConteudoCarrinho(): Locator {
     return this.page.locator('main');
-    }
+  }
 
-    getLinkProdutoNaSacola(): Locator {
+  getLinkProdutoNaSacola(): Locator {
     return this.page.locator(
-        'main a[href*="/p/"], main a[href*="/produto/"]'
+      'main a[href*="/p/"], main a[href*="/produto/"]'
     );
-    }
+  }
 
   getMensagemSacolaVazia(): Locator {
-    return this.page.locator('.cart-empty, .cart-empty__message');
+    return this.page.locator(
+      '.cart-empty, .cart-empty__message'
+    );
   }
 }

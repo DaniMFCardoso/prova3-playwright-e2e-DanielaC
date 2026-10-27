@@ -12,18 +12,31 @@ test.describe('Cadastro de produtos no carrinho - Sephora', () => {
 
   test.beforeEach(async ({ page }) => {
     carrinhoPage = new CarrinhoPage(page);
+
     await page.goto(BASE_URL);
     await carrinhoPage.aceitarCookies();
   });
 
-  test('Adicionar produto ao carrinho', async () => {
+  test('CT01 - Adicionar produto ao carrinho', async () => {
     await carrinhoPage.acessarProduto(URL_PRODUTO);
     await carrinhoPage.adicionarProdutoSacola();
     await carrinhoPage.validarProdutoAdicionado();
   });
 
-  test('Validar carrinho vazio', async () => {
+  test('CT02 - Validar carrinho vazio', async () => {
     await carrinhoPage.abrirSacola();
     await carrinhoPage.validarSacolaVazia();
+  });
+
+  test('CT03 - Validar produto na sacola', async () => {
+    await carrinhoPage.acessarProduto(URL_PRODUTO);
+    await carrinhoPage.adicionarProdutoSacola();
+    await carrinhoPage.abrirSacola();
+
+    await expect(
+      carrinhoPage.carrinhoElements
+        .getLinkProdutoNaSacola()
+        .first()
+    ).toBeVisible();
   });
 });
