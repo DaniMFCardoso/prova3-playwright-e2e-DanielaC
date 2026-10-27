@@ -75,10 +75,10 @@ export default class CarrinhoPage extends BasePage {
   }
 
   async validarSacolaVazia(): Promise<void> {
-    await this.abrirSacola();
+  await this.abrirSacola();
 
-    await expect(
-      this.carrinhoElements.getMensagemSacolaVazia()
-    ).toBeVisible();
-  }
+  await expect(
+    this.carrinhoElements.getMensagemSacolaVazia()
+  ).toBeVisible();
+}
 }
